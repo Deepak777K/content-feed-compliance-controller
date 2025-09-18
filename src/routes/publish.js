@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validators = require('../checks');
+const { logAttempt } = require('../utils/logger');
 
 router.post('/', (req, res) => {
 	const { title, body, feed } = req.body;
@@ -10,13 +11,16 @@ router.post('/', (req, res) => {
 	}
 
 	const article = { title, body };
-
 	const validator = validators[feed];
+
 	if (!validator) {
-		return res.status(400).json({ error: `Unknown feed: ${feed}` });
+		const result = { success: false, message: `Unknown feed: ${feed}` };
+		logAttempt(feed, article, result);
+		return res.status(400).json({ error: result.message });
 	}
 
 	const result = validator(article);
+	logAttempt(feed, article, result);
 
 	if (!result.success) {
 		return res.status(400).json({ error: result.message });
