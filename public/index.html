@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Content Uploader</title>
+</head>
+
+<body>
+	<h1>Submit Article for Publishing</h1>
+	<form id="articleForm">
+		<input type="text" id="title" placeholder="Article Title" required /><br><br>
+		<textarea id="body" placeholder="Enter article..." rows="10" cols="50"></textarea><br>
+		<select id="feed">
+			<option value="msn">MSN</option>
+			<option value="google">Google News</option>
+			<option value="apple">Apple News</option>
+		</select><br><br>
+		<button type="submit">Submit</button>
+	</form>
+
+	<pre id="response"></pre>
+
+	<script>
+		document.getElementById('articleForm').addEventListener('submit', async function (e) {
+			e.preventDefault();
+
+			const title = document.getElementById('title').value;
+			const body = document.getElementById('body').value;
+			const feed = document.getElementById('feed').value;
+
+			const resBox = document.getElementById('response');
+			resBox.innerText = 'Submitting...';
+
+			try {
+				const res = await fetch('/api/publish', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ title, body, feed })
+				});
+
+				const data = await res.json();
+
+				if (res.ok) {
+					resBox.innerText = `${data.message}`;
+				} else {
+					resBox.innerText = `${data.error}`;
+				}
+			} catch (err) {
+				resBox.innerText = `Error submitting article`;
+			}
+		});
+	</script>
+</body>
+
+</html>
