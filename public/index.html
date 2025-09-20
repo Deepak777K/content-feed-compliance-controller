@@ -3,69 +3,9 @@
 
 <head>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Content Uploader</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f6f8;
-			margin: 0;
-			padding: 0;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-		}
-
-		.container {
-			background-color: white;
-			padding: 40px;
-			border-radius: 8px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-			width: 100%;
-			max-width: 600px;
-		}
-
-		h1 {
-			font-size: 24px;
-			margin-bottom: 20px;
-			text-align: center;
-			color: #333;
-		}
-
-		input,
-		textarea,
-		select {
-			width: 100%;
-			padding: 10px;
-			margin-bottom: 15px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			font-size: 14px;
-		}
-
-		button {
-			width: 100%;
-			padding: 12px;
-			background-color: #007BFF;
-			color: white;
-			border: none;
-			border-radius: 4px;
-			font-size: 16px;
-			cursor: pointer;
-		}
-
-		button:hover {
-			background-color: #0056b3;
-		}
-
-		pre {
-			margin-top: 20px;
-			background: #eee;
-			padding: 10px;
-			border-radius: 4px;
-			white-space: pre-wrap;
-		}
-	</style>
+	<link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
@@ -79,39 +19,28 @@
 			</select>
 			<button type="submit">Submit</button>
 		</form>
+
 		<pre id="response"></pre>
+
+		<button id="loadLogsBtn">View Recent Logs</button>
+
+		<div id="logsOutputContainer">
+			<h2>Recent Logs</h2>
+			<table id="logsTable">
+				<thead>
+					<tr>
+						<th>Timestamp</th>
+						<th>Feed</th>
+						<th>Title</th>
+						<th>Result</th>
+					</tr>
+				</thead>
+				<tbody id="logsTableBody"></tbody>
+			</table>
+		</div>
 	</div>
 
-	<script>
-		document.getElementById('articleForm').addEventListener('submit', async function (e) {
-			e.preventDefault();
-
-			const title = document.getElementById('title').value;
-			const body = document.getElementById('body').value;
-			const feed = document.getElementById('feed').value;
-
-			const resBox = document.getElementById('response');
-			resBox.innerText = 'Submitting...';
-
-			try {
-				const res = await fetch('/api/publish', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ title, body, feed })
-				});
-
-				const data = await res.json();
-
-				if (res.ok) {
-					resBox.innerText = `${data.message}`;
-				} else {
-					resBox.innerText = `${data.error}`;
-				}
-			} catch (err) {
-				resBox.innerText = `Error submitting article`;
-			}
-		});
-	</script>
+	<script src="main.js" defer></script>
 </body>
 
 </html>
