@@ -178,3 +178,4 @@ module.exports = function validateGoogle(article) {
 ├── README.md
 └── system_diagram.png     # System design diagram
 ```
+
