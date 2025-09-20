@@ -1,0 +1,3 @@
+{"timestamp":"2025-09-18T13:01:19.015Z","feed":"msn","title":"article test 1","result":"SUCCESS"}
+{"timestamp":"2025-09-18T13:01:30.212Z","feed":"msn","title":"article test 1","result":"FAILURE: MSN: Prohibited content detected (\"bad-word\")."}
+{"timestamp":"2025-09-18T13:01:35.421Z","feed":"apple","title":"article test 1","result":"FAILURE: Unknown feed: apple"}
